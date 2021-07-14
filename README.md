@@ -26,3 +26,7 @@ REPORT_TEMPLATE_ID=
 
 ### Run The Script
 `python main.py`
+
+### Windows Executable
+Make sure the .env file is in the same directory as the exe
+`get_report.exe`
