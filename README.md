@@ -32,5 +32,5 @@ Make sure the config.env file is in the same directory as the exe
 `get_report.exe`
 
 ### Mac Executable
-Make sure the config.env file is in the same directory as the exe
-'get_report'
+Make sure the config.env file is in the same directory as the program
+`get_report`
