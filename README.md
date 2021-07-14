@@ -1,5 +1,9 @@
 # pco-services-display
 
+This project will open a Planning Center Services Report in a web browser to display on screen.
+It is used to show on a display who is scheduled, and what position they are scheduled.
+
+
 ## Simple Usage
 Download `get_report.exe` (Windows) OR `get_report`(Mac)
 Download config.env
