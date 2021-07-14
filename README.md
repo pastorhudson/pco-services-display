@@ -15,7 +15,7 @@
 ### Install Requirements
 `pip install -r requirements.txt`
 
-### Edit .env
+### Edit config.env
 Get Your api keys from https://api.planningcenteronline.com
 ```
 PCO_APPLICATION_ID=
@@ -28,5 +28,9 @@ REPORT_TEMPLATE_ID=
 `python main.py`
 
 ### Windows Executable
-Make sure the .env file is in the same directory as the exe
+Make sure the config.env file is in the same directory as the exe
 `get_report.exe`
+
+### Mac Executable
+Make sure the config.env file is in the same directory as the exe
+'get_report'
