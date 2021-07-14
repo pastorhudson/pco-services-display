@@ -14,9 +14,7 @@ pco = pypco.PCO(application_id=os.getenv('PCO_APPLICATION_ID'),
 
 
 def get_service_type_id(service_name):
-    print(service_name)
     services = pco.iterate('/services/v2/service_types')
-    # print(services)
     for service in services:
         if service['data']['attributes']['name'] == service_name:
             # print(f"{service['data']['attributes']['name']} - {service['data']['id']}")
@@ -25,7 +23,6 @@ def get_service_type_id(service_name):
 
 def get_latest_plan(service_type_id):
     plans = pco.iterate(f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
-    # print(datetime.strftime(get_sunday(), '%B %d, %Y'))
     for plan in plans:
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), '%B %d, %Y')):
             # print(plan['data']['attributes']['dates'])
@@ -56,4 +53,4 @@ def open_url(url):
 
 
 if __name__ == "__main__":
-    print(get_url())
+    get_url()
