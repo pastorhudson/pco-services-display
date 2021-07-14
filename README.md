@@ -1,5 +1,28 @@
 # pco-services-display
 
+## Simple Usage
+Download `get_report.exe` (Windows) OR `get_report`(Mac)
+Download config.env
+
+### Edit config.env
+Get Your api keys from https://api.planningcenteronline.com
+```
+PCO_APPLICATION_ID=
+PCO_API_SECRET=
+SERVICE_TYPE="Sunday Morning"
+REPORT_TEMPLATE_ID=
+```
+
+### Run
+#### Windows
+Ensure `config.env` and `get_report.exe` are in the same directory.
+Run `get_report.exe`
+
+#### Mac
+Ensure `config.env` and `get_report` are in the same directory.
+Run `get_report`
+
+##Developers
 ### Clone the Repo
 `git clone https://github.com/pastorhudson/pco-services-display.git`
 
@@ -26,11 +49,3 @@ REPORT_TEMPLATE_ID=
 
 ### Run The Script
 `python main.py`
-
-### Windows Executable
-Make sure the config.env file is in the same directory as the exe
-`get_report.exe`
-
-### Mac Executable
-Make sure the config.env file is in the same directory as the program
-`get_report`
