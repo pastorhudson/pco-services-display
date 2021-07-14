@@ -1,6 +1,6 @@
 # pco-services-display
 
-This project will open a Planning Center Services Report in a web browser to display on screen.
+This project will open a Planning Center Services Report for the current Sunda in a web browser to display on screen.
 It is used to show on a display who is scheduled, and what position they are scheduled.
 
 
@@ -10,6 +10,8 @@ Download config.env
 
 ### Edit config.env
 Get Your api keys from https://api.planningcenteronline.com
+The Service type is the regular name of the Service Type.
+The Report template id is the id number in the url when you run the report as html.
 ```
 PCO_APPLICATION_ID=
 PCO_API_SECRET=
