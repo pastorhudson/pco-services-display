@@ -7,7 +7,6 @@ import webbrowser
 
 load_dotenv('.env')
 
-
 """Best practice is to store credentials in environment variables."""
 pco = pypco.PCO(application_id=os.getenv('PCO_APPLICATION_ID'),
                 secret=os.getenv('PCO_API_SECRET'))
@@ -22,7 +21,8 @@ def get_service_type_id(service_name):
 
 
 def get_latest_plan(service_type_id):
-    plans = pco.iterate(f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
+    plans = pco.iterate(
+        f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
     for plan in plans:
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), '%B %d, %Y')):
             # print(plan['data']['attributes']['dates'])
