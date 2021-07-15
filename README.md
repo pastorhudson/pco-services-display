@@ -27,8 +27,10 @@ Run `get_report.exe`
 #### Mac
 Ensure `config.env` and `get_report` are in the same directory.
 Run `get_report`
+If it opens in txtedit then Downlod from the release or set the file to executable:
+`chmod +x get_report`
 
-##Developers
+## Developer Instructions
 ### Clone the Repo
 `git clone https://github.com/pastorhudson/pco-services-display.git`
 
