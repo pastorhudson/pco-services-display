@@ -50,9 +50,12 @@ def get_wednesday():
     if today.weekday() < 2:
         wednesday = today + timedelta(days=2 - today.weekday())
         return wednesday
-    if today.weekday() > 2:
-        wednesday = today + timedelta(days=-today.weekday() + 2, weeks=1)
+    elif today.weekday() > 2:
+        wednesday = today + timedelta(days=9 - today.weekday())
         return wednesday
+    # if today.weekday() > 2:
+    #     wednesday = today + timedelta(days=-today.weekday() + 2, weeks=1)
+    #     return wednesday
     elif today.weekday() == 2:
         return today
 
