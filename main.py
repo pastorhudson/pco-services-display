@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import webbrowser
 
-load_dotenv('config.env')
+load_dotenv('.env')
 
 """Best practice is to store credentials in environment variables."""
 pco = pypco.PCO(application_id=os.getenv('PCO_APPLICATION_ID'),
@@ -27,7 +27,10 @@ def get_latest_plan(service_type_id):
         f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
     for plan in plans:
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), '%B %d, %Y')):
-            # print(plan['data']['attributes']['dates'])
+            print(plan['data']['attributes']['dates'])
+            return plan['data']['id']
+        if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), '%B %d, %Y')):
+            print(plan['data']['attributes']['dates'])
             return plan['data']['id']
 
 
@@ -38,6 +41,19 @@ def get_sunday():
         sunday = today + timedelta(days=6 - today.weekday())
         return sunday
     elif today.weekday() == 6:
+        return today
+
+
+def get_wednesday():
+    """Returns the next wednesday or today if it is wednesday"""
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    if today.weekday() < 2:
+        wednesday = today + timedelta(days=2 - today.weekday())
+        return wednesday
+    if today.weekday() > 2:
+        wednesday = today + timedelta(days=-today.weekday() + 2, weeks=1)
+        return wednesday
+    elif today.weekday() == 2:
         return today
 
 
@@ -53,7 +69,7 @@ def get_url():
 def open_url(url):
     """Open's the default browser to the report url. This could be exteded to use solenium or a system command
     to make the browser go into fullscreen or kiosk mode."""
-    webbrowser.open(url)
+    webbrowser.open(url, new=0)
 
 
 if __name__ == "__main__":
