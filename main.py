@@ -26,11 +26,11 @@ def get_latest_plan(service_type_id):
     plans = pco.iterate(
         f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
     for plan in plans:
-        if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), '%B %d, %Y')):
-            print(plan['data']['attributes']['dates'])
+
+        if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), '%B%e, %Y')):
             return plan['data']['id']
-        if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), '%B %d, %Y')):
-            print(plan['data']['attributes']['dates'])
+
+        if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), '%B%e, %Y')):
             return plan['data']['id']
 
 
@@ -53,9 +53,6 @@ def get_wednesday():
     elif today.weekday() > 2:
         wednesday = today + timedelta(days=9 - today.weekday())
         return wednesday
-    # if today.weekday() > 2:
-    #     wednesday = today + timedelta(days=-today.weekday() + 2, weeks=1)
-    #     return wednesday
     elif today.weekday() == 2:
         return today
 
