@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import webbrowser
 
-load_dotenv('.env')
+load_dotenv('config.env')
 
 """Best practice is to store credentials in environment variables."""
 pco = pypco.PCO(application_id=os.getenv('PCO_APPLICATION_ID'),
