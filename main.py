@@ -4,6 +4,7 @@ import pypco
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import webbrowser
+import platform
 
 load_dotenv('config.env')
 
@@ -12,12 +13,19 @@ pco = pypco.PCO(application_id=os.getenv('PCO_APPLICATION_ID'),
                 secret=os.getenv('PCO_API_SECRET'))
 
 
+def get_platform_date_format():
+    """This is why we can't have nice things. Windows, and unix c libraries handle dates differently."""
+    if platform.system() == 'Windows':
+        return '%B %#d, %Y'
+    elif platform.system() == 'darwin' or platform.system() == "linux" or platform.system() == "linux2":
+        return '%B %-d, %Y'
+
+
 def get_service_type_id(service_name):
     """Takes a service type(string) and returns a service type id"""
     services = pco.iterate('/services/v2/service_types')
     for service in services:
         if service['data']['attributes']['name'] == service_name:
-            # print(f"{service['data']['attributes']['name']} - {service['data']['id']}")
             return service['data']['id']
 
 
@@ -26,11 +34,14 @@ def get_latest_plan(service_type_id):
     plans = pco.iterate(
         f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
     for plan in plans:
+        # print(f"API Date: {plan['data']['attributes']['dates']}\n"
+        #       f"SUNDAY: {datetime.strftime(get_sunday(), get_platform_date_format())}\n"
+        #       f"WEDNESDAY: {datetime.strftime(get_wednesday(), get_platform_date_format())}")
 
-        if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), '%B%e, %Y')):
+        if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), get_platform_date_format())):
             return plan['data']['id']
 
-        if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), '%B%e, %Y')):
+        if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), get_platform_date_format())):
             return plan['data']['id']
 
 
