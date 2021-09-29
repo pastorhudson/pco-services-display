@@ -17,7 +17,7 @@ def get_platform_date_format():
     """This is why we can't have nice things. Windows, and unix c libraries handle dates differently."""
     if platform.system() == 'Windows':
         return '%B %#d, %Y'
-    elif platform.system() == 'darwin' or platform.system() == "linux" or platform.system() == "linux2":
+    elif platform.system() == 'Darwin' or platform.system() == "linux" or platform.system() == "linux2":
         return '%B %-d, %Y'
 
 
