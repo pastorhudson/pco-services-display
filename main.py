@@ -6,6 +6,8 @@ from datetime import datetime, timedelta
 import webbrowser
 import platform
 
+from pypco import PCORequestException
+
 load_dotenv('config.env')
 
 """Best practice is to store credentials in environment variables."""
@@ -25,6 +27,7 @@ def get_service_type_id(service_name):
     """Takes a service type(string) and returns a service type id"""
     services = pco.iterate('/services/v2/service_types')
     for service in services:
+        print(service)
         if service['data']['attributes']['name'] == service_name:
             return service['data']['id']
 
@@ -70,6 +73,7 @@ def get_wednesday():
 
 def get_url():
     """This brings everything together and returns the url."""
+    print(os.getenv('SERVICE_TYPE'))
     service_type_id = get_service_type_id(os.getenv('SERVICE_TYPE'))
     plan_id = get_latest_plan(service_type_id)
     report_template_id = os.getenv('REPORT_TEMPLATE_ID')
@@ -83,7 +87,37 @@ def open_url(url):
     webbrowser.open(url, new=0)
 
 
+def check_config():
+    print("Checking Service Type: ")
+    if os.getenv('SERVICE_TYPE'):
+        print(f'OK {os.getenv("SERVICE_TYPE")}\n')
+    else:
+        print('NOT FOUND\n')
+    print("Report Template ID: ")
+    if os.getenv('REPORT_TEMPLATE_ID'):
+        print(f'OK {os.getenv("REPORT_TEMPLATE_ID")}\n')
+    else:
+        print('NOT FOUND\n')
+    print("Checking API KEYS: ")
+    if os.getenv("PCO_API_SECRET"):
+        print("API SECRET FOUND\n")
+    else:
+        print("Not Found\n")
+    if os.getenv("PCO_APPLICATION_ID"):
+        print("API APPLICATION ID Found\n")
+    else:
+        print("Not Found\n")
+    print("TESTING KEY PAIR:")
+    try:
+        services = pco.get('/services/v2/')
+        print("API KEYS ARE GOOD")
+
+    except PCORequestException:
+        print("API KEYS BAD")
+
+
 if __name__ == "__main__":
+    check_config()
     url = get_url()
     print(url)
     open_url(url)
