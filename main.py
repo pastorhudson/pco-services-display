@@ -27,24 +27,32 @@ def get_service_type_id(service_name):
     """Takes a service type(string) and returns a service type id"""
     services = pco.iterate('/services/v2/service_types')
     for service in services:
-        print(service)
         if service['data']['attributes']['name'] == service_name:
             return service['data']['id']
 
 
 def get_latest_plan(service_type_id):
     """Takes a service type id and returns the next Sunday or today's plan if today is a Sunday"""
+    """
+    https://api.planningcenteronline.com/services/v2/service_types/173868/plans?include=plan_times&order=sort_date&where[updated_at][gte]=2022-1-1
+    """
+    back_date = datetime.now() - timedelta(weeks=int(os.getenv('LOOK_BACK_WEEKS')))
     plans = pco.iterate(
-        f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&filter=future')
+        f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&where[updated_at][gte]='
+        f'{datetime.strftime(back_date, "%Y-%m-%d")}'
+    )
+
     for plan in plans:
         # print(f"API Date: {plan['data']['attributes']['dates']}\n"
         #       f"SUNDAY: {datetime.strftime(get_sunday(), get_platform_date_format())}\n"
         #       f"WEDNESDAY: {datetime.strftime(get_wednesday(), get_platform_date_format())}")
-
+        # print(plan['data']['attributes']['dates'])
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), get_platform_date_format())):
+            print("Found sunday plan id")
             return plan['data']['id']
 
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), get_platform_date_format())):
+            print("Found wednesday id")
             return plan['data']['id']
 
 
@@ -100,7 +108,7 @@ def check_config():
         print('NOT FOUND\n')
     print("Checking API KEYS: ")
     if os.getenv("PCO_API_SECRET"):
-        print("API SECRET FOUND\n")
+        print("API SECRET FOUND")
     else:
         print("Not Found\n")
     if os.getenv("PCO_APPLICATION_ID"):
@@ -110,7 +118,7 @@ def check_config():
     print("TESTING KEY PAIR:")
     try:
         services = pco.get('/services/v2/')
-        print("API KEYS ARE GOOD")
+        print("API KEYS ARE GOOD\n")
 
     except PCORequestException:
         print("API KEYS BAD")
