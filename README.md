@@ -10,10 +10,10 @@ It is used to show on a display who is scheduled, and what position they are sch
 
 The following binaries with their corresponding checksums are included in this repository for your convenience. It is strongly RECOMMENDED that you verify their checksums before use.
 
-| Platform | Command Line Program       | Checksum (SHA256)   |
-|----------|----------------------------|---------------------|
-| Windows  | get_report.exe             | \<pending\>         |
-| Mac OS   | get_report                 | \<pending\>         |
+| Platform | Command Line Program       | Checksum (SHA256) |
+|----------|----------------------------|-----------|
+| Windows  | get_report.exe             | f365f156eafc9754f1b82062735cae7801fe4218         |
+| Mac OS   | get_report                 | \<pending\> |
 
 
 To verify the above checksums on your platform, use the corresponding command below to verify their match:
@@ -74,9 +74,11 @@ REPORT_TEMPLATE_ID=
 `python main.py`
 
 ## Executable Build Instructions
-From within your dev virtual environment 
+From within your dev virtual environment
+
 ###Install pyinstaller
-`pip install pyinstaller`
+On Windows or Latest Mac: `pip install pyinstaller`
+On Older Mac: `pip install pyinstaller==4.3`
 
 ###Run build script:
 - `cd release`
