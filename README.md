@@ -72,3 +72,14 @@ REPORT_TEMPLATE_ID=
 
 ### Run The Script
 `python main.py`
+
+## Executable Build Instructions
+From within your dev virtual environment 
+###Install pyinstaller
+`pip install pyinstaller`
+
+###Run build script:
+- `cd release`
+- On Windows, run: 'package_executable_windows.bat'
+- On Mac OS, run: 'package_executable_mac.sh'
+- The respective binary will be added to the project directory.
