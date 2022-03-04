@@ -78,11 +78,11 @@ REPORT_TEMPLATE_ID=
 ## Executable Build Instructions
 From within your dev virtual environment
 
-###Install pyinstaller
+### Install pyinstaller
 On Windows or Latest Mac: `pip install pyinstaller`
 On Older Mac: `pip install pyinstaller==4.3`
 
-###Run build script:
+### Run build script:
 - `cd release`
 - On Windows, run: 'package_executable_windows.bat'
 - On Mac OS, run: 'package_executable_mac.sh'
