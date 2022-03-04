@@ -34,7 +34,7 @@ REPORT_TEMPLATE_ID=
 ```
 
 Edit settings in this file (**config.env**) as follows:
-- `PCO_API_SECRET`, `PCO_APPLICATION_ID` - Get your API key and Application ID from https://api.planningcenteronline.com
+- `PCO_APPLICATION_ID`, `PCO_API_SECRET` - Get your API credentials from https://api.planningcenteronline.com
 - `SERVICE_TYPE` - The regular name of the Service Type (i.e. "Sunday Morning")
 - `REPORT_TEMPLATE_ID` - The ID number in the URL when you run the report as HTML
 
