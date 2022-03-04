@@ -31,12 +31,14 @@ PCO_APPLICATION_ID=
 PCO_API_SECRET=
 SERVICE_TYPE="Sunday Morning"
 REPORT_TEMPLATE_ID=
+LOOK_BACK_WEEKS=8
 ```
 
 Edit settings in this file (**config.env**) as follows:
 - `PCO_APPLICATION_ID`, `PCO_API_SECRET` - Get your API credentials from https://api.planningcenteronline.com
 - `SERVICE_TYPE` - The regular name of the Service Type (i.e. "Sunday Morning")
 - `REPORT_TEMPLATE_ID` - The ID number in the URL when you run the report as HTML
+- 'LOOK_BACK_WEEKS=8' - The number of weeks ago that the plan was created. Higher numbers take longer to run.
 
 ### Run
 **Important.** Before running the program:
