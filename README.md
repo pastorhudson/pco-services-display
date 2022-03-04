@@ -35,12 +35,11 @@ Edit settings in this file (**config.env**) as follows:
 - `SERVICE_TYPE` - The regular name of the Service Type (i.e. "Sunday Morning")
 - `REPORT_TEMPLATE_ID` - The ID number in the URL when you run the report as HTML
 
-
-**Important:**
+### Run
+**Important:** Before running the program:
 - Please ensure both **config.env** and the command line program for your platform are in the *same* directory
 - (Mac OS users only) Please ensure `get_report` is executable by running `chmod +x ./get_report`
 
-### Run
 Once configured, simply run the command line program: `get_report.exe` (Windows) or `./get_report` (Mac OS)
 
 ## Developer Instructions
