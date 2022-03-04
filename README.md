@@ -20,6 +20,10 @@ To verify the above checksums on your platform, use the corresponding command be
 - On Windows, run: `CertUtil -hashfile 'path\to\bin\windows\get_report.exe' sha256`
 - On Mac OS, run: `shasum -a 256 path/to/get_report` or `sha256sum path/to/get_report`
 
+Alternatively, you can also build these binaries from source using the scripts found in the *release/* folder.
+
+See also [Developer Instructions](#developer-instructions) below for running the main script directly.
+
 ### Editing config.env
 Template:
 ```
