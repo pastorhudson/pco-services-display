@@ -36,7 +36,7 @@ Edit settings in this file (**config.env**) as follows:
 - `REPORT_TEMPLATE_ID` - The ID number in the URL when you run the report as HTML
 
 ### Run
-**Important:** Before running the program:
+**Important.** Before running the program:
 - Please ensure both **config.env** and the command line program for your platform are in the *same* directory
 - (Mac OS users only) Please ensure `get_report` is executable by running `chmod +x ./get_report`
 
