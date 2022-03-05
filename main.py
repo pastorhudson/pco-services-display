@@ -5,8 +5,16 @@ from dotenv import load_dotenv
 from datetime import datetime, timedelta
 import webbrowser
 import platform
-
 from pypco import PCORequestException
+import logging
+logging.basicConfig(level=logging.DEBUG, force=True, format = "%(asctime)s [%(levelname)s] %(message)s",
+                    handlers=[logging.FileHandler("Log.txt"),
+                              logging.StreamHandler()
+                              ]
+                    )
+
+logger = logging.getLogger(__name__)
+
 
 load_dotenv('config.env')
 
@@ -29,6 +37,7 @@ def get_service_type_id(service_name):
     for service in services:
         if service['data']['attributes']['name'] == service_name:
             return service['data']['id']
+    logger.error(f'No Service ID for {service_name} found.')
 
 
 def get_latest_plan(service_type_id):
@@ -37,23 +46,31 @@ def get_latest_plan(service_type_id):
     https://api.planningcenteronline.com/services/v2/service_types/173868/plans?include=plan_times&order=sort_date&where[updated_at][gte]=2022-1-1
     """
     back_date = datetime.now() - timedelta(weeks=int(os.getenv('LOOK_BACK_WEEKS')))
-    plans = pco.iterate(
-        f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&where[updated_at][gte]='
-        f'{datetime.strftime(back_date, "%Y-%m-%d")}'
-    )
+    logger.info(f"Looking for Sunday: {datetime.strftime(get_sunday(), get_platform_date_format())} or "
+                f"Wednesday: {datetime.strftime(get_wednesday(), get_platform_date_format())}")
+    try:
+        plans = pco.iterate(
+            f'/services/v2/service_types/{service_type_id}/plans?include=plan_times&order=sort_date&where[created_at][gte]='
+            f'{datetime.strftime(back_date, "%Y-%m-%d")}'
+        )
+    except PCORequestException:
+        logger.error(f"Unable to find Service Type")
 
     for plan in plans:
-        # print(f"API Date: {plan['data']['attributes']['dates']}\n"
-        #       f"SUNDAY: {datetime.strftime(get_sunday(), get_platform_date_format())}\n"
-        #       f"WEDNESDAY: {datetime.strftime(get_wednesday(), get_platform_date_format())}")
-        # print(plan['data']['attributes']['dates'])
+        logger.debug(f"API Date: {plan['data']['attributes']['dates']} "
+              f"SUNDAY: {datetime.strftime(get_sunday(), get_platform_date_format())} "
+              f"WEDNESDAY: {datetime.strftime(get_wednesday(), get_platform_date_format())}")
+        logger.debug(plan['data']['attributes']['dates'])
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_sunday(), get_platform_date_format())):
-            print("Found sunday plan id")
+            logger.info("Found Sunday plan id")
             return plan['data']['id']
 
         if plan['data']['attributes']['dates'] == (datetime.strftime(get_wednesday(), get_platform_date_format())):
-            print("Found wednesday id")
+            logger.info("Found wednesday id")
             return plan['data']['id']
+    logger.info(f'No Plan ID Found for \n'
+                f'Sunday: {datetime.strftime(get_sunday(), get_platform_date_format())}\n'
+                f'Wednesday:{datetime.strftime(get_wednesday(), get_platform_date_format())}')
 
 
 def get_sunday():
@@ -81,12 +98,16 @@ def get_wednesday():
 
 def get_url():
     """This brings everything together and returns the url."""
-    print(os.getenv('SERVICE_TYPE'))
-    service_type_id = get_service_type_id(os.getenv('SERVICE_TYPE'))
-    plan_id = get_latest_plan(service_type_id)
-    report_template_id = os.getenv('REPORT_TEMPLATE_ID')
-    url = f"https://services.planningcenteronline.com/report_templates/{report_template_id}/report.html?plan_id={plan_id}"
-    return url
+    try:
+        logger.info(os.getenv('SERVICE_TYPE'))
+        service_type_id = get_service_type_id(os.getenv('SERVICE_TYPE'))
+        plan_id = get_latest_plan(service_type_id)
+        report_template_id = os.getenv('REPORT_TEMPLATE_ID')
+        url = f"https://services.planningcenteronline.com/report_templates/{report_template_id}/report.html?plan_id={plan_id}"
+        return url
+    except PCORequestException:
+        # logger.error(PCORequestException)
+        pass
 
 
 def open_url(url):
@@ -96,36 +117,38 @@ def open_url(url):
 
 
 def check_config():
-    print("Checking Service Type: ")
+    logger.info("Checking Service Type: ")
     if os.getenv('SERVICE_TYPE'):
-        print(f'OK {os.getenv("SERVICE_TYPE")}\n')
+        logger.info(f'OK {os.getenv("SERVICE_TYPE")}\n')
     else:
-        print('NOT FOUND\n')
-    print("Report Template ID: ")
+        logger.error('SERVICE_TYPE NOT FOUND\n')
+    logger.info("Report Template ID: ")
     if os.getenv('REPORT_TEMPLATE_ID'):
-        print(f'OK {os.getenv("REPORT_TEMPLATE_ID")}\n')
+        logger.info(f'OK {os.getenv("REPORT_TEMPLATE_ID")}\n')
     else:
-        print('NOT FOUND\n')
-    print("Checking API KEYS: ")
+        logger.error('REPORT_TEMPLATE_ID NOT FOUND\n')
+    logger.info("Checking API KEYS: ")
     if os.getenv("PCO_API_SECRET"):
-        print("API SECRET FOUND")
+        logger.info("API SECRET FOUND")
     else:
-        print("Not Found\n")
+        logger.info("PCO_API_SECRET Not Found\n")
     if os.getenv("PCO_APPLICATION_ID"):
-        print("API APPLICATION ID Found\n")
+        logger.info("API APPLICATION ID Found\n")
     else:
-        print("Not Found\n")
-    print("TESTING KEY PAIR:")
+        logger.error("API_APPLICATION_ID Not Found\n")
+    logger.info("TESTING KEY PAIR:")
     try:
         services = pco.get('/services/v2/')
-        print("API KEYS ARE GOOD\n")
+        logger.info("API KEYS ARE GOOD\n")
 
     except PCORequestException:
-        print("API KEYS BAD")
+        logger.error("API KEYS BAD")
 
 
 if __name__ == "__main__":
     check_config()
     url = get_url()
-    print(url)
-    open_url(url)
+    if url:
+        logger.info(url)
+        open_url(url)
+
