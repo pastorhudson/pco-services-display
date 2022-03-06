@@ -12,7 +12,7 @@ The following binaries with their corresponding checksums are included in this r
 
 | Platform | Command Line Program       | Checksum (SHA256) |
 |----------|----------------------------|-----------|
-| Windows  | get_report.exe             | 5f85ab556d82d66a93f6fd238f85285b8e5eeab6bc51271b2ebb4a4b27aa9f1e         |
+| Windows  | get_report.exe             | 3513f6c99f5193a2faa3a473c7b21edfafc7e705ed93eb8775b422587cf19a8b         |
 | Mac OS   | get_report                 | 52536714585c1ad82053bc2a6d281939909aa4c44bbd26d9220c4a967b56e4bf |
 
 
