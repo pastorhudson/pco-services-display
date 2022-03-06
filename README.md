@@ -13,7 +13,7 @@ The following binaries with their corresponding checksums are included in this r
 | Platform | Command Line Program       | Checksum (SHA256) |
 |----------|----------------------------|-----------|
 | Windows  | get_report.exe             | 5f85ab556d82d66a93f6fd238f85285b8e5eeab6bc51271b2ebb4a4b27aa9f1e         |
-| Mac OS   | get_report                 | bdd87d7c10aebba095703ba0420d98efb18495adbd745c868a730039eb047639 |
+| Mac OS   | get_report                 | 52536714585c1ad82053bc2a6d281939909aa4c44bbd26d9220c4a967b56e4bf |
 
 
 To verify the above checksums on your platform, use the corresponding command below to verify their match:
